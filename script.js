@@ -1,11 +1,19 @@
 console.log("Hello world!");
 
+let gardenTotal = 0;
+let bps = 0;
 
-  let gardenTotal= 0;
-  let bps= 0;
+const gardenP = document.getElementById("garden-p");
+gardenP.textContent = "Garden: " + gardenTotal; //show score as p tag
 
-document.getElementById("garden-p");
-garden-p.textContent = gardenTotal
+const bpsP = document.getElementById("bps-p");
+bpsP.textContent = "BPS (blooms per second): " + bps;
+
+const clickFlower = document.getElementById("click-flower");
+clickFlower.addEventListener("click", function () {
+  gardenTotal++;
+  gardenP.textContent = "Garden: " + gardenTotal;
+});
 
 async function getMarketElements() {
   const response = await fetch(
@@ -44,16 +52,24 @@ async function createMarketstall() {
     marketContainer.appendChild(nameTag);
     marketContainer.appendChild(costTag);
     marketContainer.appendChild(produceTag);
-    marketContainer.appendChild(harvestButton);
-    harvestButton.addEventListener("click",function(){
-      if gardenTotal 
-    })
+    marketContainer.appendChild(harvestButton); // button needs to subtract cost from gardentotal and introduce multiplier
+    harvestButton.addEventListener("click", function () {
+      if (gardenTotal >= element.cost) {
+        gardenTotal = gardenTotal -= element.cost;
+        console.log(gardenTotal);
+        bps = bps += element.increase;
+        gardenP.textContent = "Garden: " + gardenTotal;
+        bpsP.textContent = "BPS: " + bps;
+      }
+    });
   });
 }
 
+//blooms per second needs to display the total of the produce multipliers
 createMarketstall();
-
 
 setInterval(function () {
   gardenTotal += bps;
+  gardenP.textContent = "Garden: " + gardenTotal;
+  bpsP.textContent = "BPS: " + bps;
 }, 1000);

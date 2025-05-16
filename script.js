@@ -25,30 +25,62 @@ async function getMarketElements() {
 
 const marketContainer = document.getElementById("market-container");
 
-// const seedNames = [
-//   "Lavender",
-//   "Sunflower",
-//   "Pansy",
-//   "Marigold",
-//   "Peony",
-//   "Bluebell",
-//   "Lily",
-//   "Tulip",
-//   "Sprinkler",
-//   "Greenhouse",
-// ];
+const seedNames = [
+  {
+    id: 1,
+    name: "Lavender",
+  },
+  {
+    id: 2,
+    name: "Sunflower",
+  },
+  {
+    id: 3,
+    name: "Pansy",
+  },
+  {
+    id: 4,
+    name: "Marigold",
+  },
+  {
+    id: 5,
+    name: "Peony",
+  },
+  {
+    id: 6,
+    name: "Bluebell",
+  },
+  {
+    id: 7,
+    name: "Lily",
+  },
+  {
+    id: 8,
+    name: "Tulip",
+  },
+  {
+    id: 9,
+    name: "Sprinkler",
+  },
+  {
+    id: 10,
+    name: "Greenhouse",
+  },
+];
 
 async function createMarketstall() {
   const marketData = await getMarketElements();
-  console.log(marketData);
-  marketData.forEach((element) => {
+  console.log(marketData); //to check data has been retrieved
+  marketData.forEach((element, i) => {
     const nameTag = document.createElement("p");
-    nameTag.textContent = element.name;
+    nameTag.textContent = seedNames[i].name; //dot notation needs to get name element from seednames object
     const costTag = document.createElement("p");
-    costTag.textContent = element.cost;
+    costTag.textContent = "Costs: " + element.cost;
     const produceTag = document.createElement("p");
-    produceTag.textContent = element.increase;
+    produceTag.textContent = "Plants: " + element.increase + " bps";
     const harvestButton = document.createElement("button");
+    harvestButton.className = "harvestButton";
+    harvestButton.textContent = "Harvest for purchase";
     marketContainer.appendChild(nameTag);
     marketContainer.appendChild(costTag);
     marketContainer.appendChild(produceTag);
@@ -59,7 +91,16 @@ async function createMarketstall() {
         console.log(gardenTotal);
         bps = bps += element.increase;
         gardenP.textContent = "Garden: " + gardenTotal;
-        bpsP.textContent = "BPS: " + bps;
+        bpsP.textContent = "BPS (blooms per second): " + bps;
+        const stringifiedGardenTotal = JSON.stringify(gardenTotal);
+        localStorage.setItem("gardenTotal", stringifiedGardenTotal);
+        localStorage.getItem(gardenTotal);
+        JSON.parse(stringifiedGardenTotal);
+
+        const stringifiedBPS = JSON.stringify(bps);
+        localStorage.setItem("bps", stringifiedBPS);
+        localStorage.getItem(bps);
+        JSON.parse(stringifiedBPS);
       }
     });
   });
@@ -71,5 +112,36 @@ createMarketstall();
 setInterval(function () {
   gardenTotal += bps;
   gardenP.textContent = "Garden: " + gardenTotal;
-  bpsP.textContent = "BPS: " + bps;
+  bpsP.textContent = "BPS (blooms per second): " + bps;
+  const stringifiedGardenTotal = JSON.stringify(gardenTotal);
+  localStorage.setItem("gardenTotal", stringifiedGardenTotal);
+  localStorage.getItem(gardenTotal);
+  JSON.parse(stringifiedGardenTotal);
+
+  const stringifiedBPS = JSON.stringify(bps);
+  localStorage.setItem("bps", stringifiedBPS);
+  localStorage.getItem(bps);
+  JSON.parse(stringifiedBPS);
 }, 1000);
+
+const saveButton = document.getElementById("save-button");
+saveButton.addEventListener("click", function () {
+  const stringifiedGardenTotal = JSON.stringify(gardenTotal);
+  localStorage.setItem("gardenTotal", stringifiedGardenTotal);
+  localStorage.getItem(gardenTotal);
+  JSON.parse(stringifiedGardenTotal);
+
+  const stringifiedBPS = JSON.stringify(bps);
+  localStorage.setItem("bps", stringifiedBPS);
+  localStorage.getItem(bps);
+  JSON.parse(stringifiedBPS);
+});
+
+const resetButton = document.getElementById("reset-button");
+resetButton.addEventListener("click", function () {
+  localStorage.clear();
+  gardenTotal = 0;
+  gardenP.textContent = "Garden: " + gardenTotal;
+  bps = 0;
+  bpsP.textContent = "BPS (blooms per second): " + bps;
+});

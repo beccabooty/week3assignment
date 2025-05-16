@@ -11,10 +11,23 @@
   color: white;
   text-align: center;
   font-size: 16px;
+  border-radius: 10px;
+  padding: 7px 7px;
 }
 
 .click-flower {
   width: 100px;
   height: 100px;
-  justify-content: center;
+  align-items: center;
+}
+
+.market-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+h2 {
 }
